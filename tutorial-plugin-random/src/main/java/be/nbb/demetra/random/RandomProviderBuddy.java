@@ -104,7 +104,7 @@ public class RandomProviderBuddy extends AbstractDataSourceProviderBuddy {
 
         @Override
         public String valueToString(Object value) throws ParseException {
-            return value == null ? "" : Formatters.doubleArrayFormatter().format((double[]) value).toString();
+            return value == null ? "" : Formatters.doubleArrayFormatter().formatAsString((double[]) value);
         }
     }
 }
