@@ -15,6 +15,8 @@ import ec.tss.tsproviders.spreadsheet.SpreadSheetBean;
 import ec.tss.tsproviders.spreadsheet.SpreadSheetProvider;
 import ec.tss.tsproviders.utils.DataFormat;
 import ec.tss.tsproviders.utils.IConstraint;
+import ec.tstoolkit.timeseries.TsAggregationType;
+import ec.tstoolkit.timeseries.simplets.TsFrequency;
 import ec.util.completion.ext.DesktopFileAutoCompletionSource;
 import ec.util.completion.swing.FileListCellRenderer;
 import ec.util.completion.swing.JAutoCompletion;
@@ -29,6 +31,7 @@ import java.io.FileFilter;
 import java.util.Date;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFileChooser;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -88,6 +91,11 @@ public class SpreadSheetBeanPanel extends javax.swing.JPanel {
 
         new TextPrompt("number pattern", numberPatternTextField).setEnabled(false);
         numberPatternTextField.getDocument().addDocumentListener(previewer);
+
+        previewer.changedUpdate(null);
+
+        frequencyComboBox.setModel(new DefaultComboBoxModel(TsFrequency.values()));
+        aggregationTypeComboBox.setModel(new DefaultComboBoxModel(TsAggregationType.values()));
     }
 
     private final class Previewer implements DocumentListener {
@@ -116,11 +124,15 @@ public class SpreadSheetBeanPanel extends javax.swing.JPanel {
     public void loadBean(SpreadSheetBean bean) {
         setFile(bean.getFile());
         setDataFormat(bean.getDataFormat());
+        frequencyComboBox.setSelectedItem(bean.getFrequency());
+        aggregationTypeComboBox.setSelectedItem(bean.getAggregationType());
     }
 
     public void storeBean(SpreadSheetBean bean) {
         bean.setFile(getFile());
         bean.setDataFormat(getDataFormat());
+        bean.setFrequency((TsFrequency) frequencyComboBox.getSelectedItem());
+        bean.setAggregationType((TsAggregationType) aggregationTypeComboBox.getSelectedItem());
     }
 
     public File getFile() {
@@ -154,39 +166,130 @@ public class SpreadSheetBeanPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        filePathTextField = new javax.swing.JTextField();
+        jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        browseButton = new javax.swing.JButton();
         localeTextField = new javax.swing.JTextField();
         datePatternTextField = new javax.swing.JTextField();
-        datePatternPreview = new javax.swing.JLabel();
         numberPatternTextField = new javax.swing.JTextField();
+        datePatternPreview = new javax.swing.JLabel();
         numberPatternPreview = new javax.swing.JLabel();
+        frequencyComboBox = new javax.swing.JComboBox();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        aggregationTypeComboBox = new javax.swing.JComboBox();
+        jPanel2 = new javax.swing.JPanel();
+        filePathTextField = new javax.swing.JTextField();
+        browseButton = new javax.swing.JButton();
 
-        org.openide.awt.Mnemonics.setLocalizedText(jLabel1, org.openide.util.NbBundle.getMessage(SpreadSheetBeanPanel.class, "SpreadSheetBeanPanel.jLabel1.text")); // NOI18N
-
-        filePathTextField.setText(org.openide.util.NbBundle.getMessage(SpreadSheetBeanPanel.class, "SpreadSheetBeanPanel.filePathTextField.text")); // NOI18N
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(SpreadSheetBeanPanel.class, "SpreadSheetBeanPanel.jPanel1.border.title"))); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(jLabel2, org.openide.util.NbBundle.getMessage(SpreadSheetBeanPanel.class, "SpreadSheetBeanPanel.jLabel2.text")); // NOI18N
 
+        localeTextField.setText(org.openide.util.NbBundle.getMessage(SpreadSheetBeanPanel.class, "SpreadSheetBeanPanel.localeTextField.text")); // NOI18N
+
+        datePatternTextField.setText(org.openide.util.NbBundle.getMessage(SpreadSheetBeanPanel.class, "SpreadSheetBeanPanel.datePatternTextField.text")); // NOI18N
+
+        numberPatternTextField.setText(org.openide.util.NbBundle.getMessage(SpreadSheetBeanPanel.class, "SpreadSheetBeanPanel.numberPatternTextField.text")); // NOI18N
+
+        org.openide.awt.Mnemonics.setLocalizedText(datePatternPreview, org.openide.util.NbBundle.getMessage(SpreadSheetBeanPanel.class, "SpreadSheetBeanPanel.datePatternPreview.text")); // NOI18N
+
+        org.openide.awt.Mnemonics.setLocalizedText(numberPatternPreview, org.openide.util.NbBundle.getMessage(SpreadSheetBeanPanel.class, "SpreadSheetBeanPanel.numberPatternPreview.text")); // NOI18N
+
+        org.openide.awt.Mnemonics.setLocalizedText(jLabel3, org.openide.util.NbBundle.getMessage(SpreadSheetBeanPanel.class, "SpreadSheetBeanPanel.jLabel3.text")); // NOI18N
+
+        org.openide.awt.Mnemonics.setLocalizedText(jLabel4, org.openide.util.NbBundle.getMessage(SpreadSheetBeanPanel.class, "SpreadSheetBeanPanel.jLabel4.text")); // NOI18N
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(datePatternTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(datePatternPreview))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(numberPatternTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(numberPatternPreview)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
+                            .addComponent(aggregationTypeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap())
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel3)
+                        .addGap(109, 109, 109))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(localeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(frequencyComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(localeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(frequencyComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(datePatternTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(datePatternPreview)
+                    .addComponent(jLabel4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(numberPatternTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(numberPatternPreview)
+                    .addComponent(aggregationTypeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(SpreadSheetBeanPanel.class, "SpreadSheetBeanPanel.jPanel2.border.title"))); // NOI18N
+
+        filePathTextField.setText(org.openide.util.NbBundle.getMessage(SpreadSheetBeanPanel.class, "SpreadSheetBeanPanel.filePathTextField.text")); // NOI18N
+
         browseButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/folder-open-table.png"))); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(browseButton, org.openide.util.NbBundle.getMessage(SpreadSheetBeanPanel.class, "SpreadSheetBeanPanel.browseButton.text")); // NOI18N
+        browseButton.setBorder(null);
+        browseButton.setMargin(new java.awt.Insets(0, 0, 0, 0));
         browseButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 browseButtonActionPerformed(evt);
             }
         });
 
-        localeTextField.setText(org.openide.util.NbBundle.getMessage(SpreadSheetBeanPanel.class, "SpreadSheetBeanPanel.localeTextField.text")); // NOI18N
-
-        datePatternTextField.setText(org.openide.util.NbBundle.getMessage(SpreadSheetBeanPanel.class, "SpreadSheetBeanPanel.datePatternTextField.text")); // NOI18N
-
-        org.openide.awt.Mnemonics.setLocalizedText(datePatternPreview, org.openide.util.NbBundle.getMessage(SpreadSheetBeanPanel.class, "SpreadSheetBeanPanel.datePatternPreview.text")); // NOI18N
-
-        numberPatternTextField.setText(org.openide.util.NbBundle.getMessage(SpreadSheetBeanPanel.class, "SpreadSheetBeanPanel.numberPatternTextField.text")); // NOI18N
-
-        org.openide.awt.Mnemonics.setLocalizedText(numberPatternPreview, org.openide.util.NbBundle.getMessage(SpreadSheetBeanPanel.class, "SpreadSheetBeanPanel.numberPatternPreview.text")); // NOI18N
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(filePathTextField)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(browseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(filePathTextField)
+                    .addComponent(browseButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -195,47 +298,17 @@ public class SpreadSheetBeanPanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(filePathTextField)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(browseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2)
-                            .addComponent(localeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(datePatternTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(datePatternPreview))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(numberPatternTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(numberPatternPreview)))
-                        .addGap(0, 211, Short.MAX_VALUE)))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(filePathTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(browseButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(localeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(datePatternTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(datePatternPreview))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(numberPatternTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(numberPatternPreview))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -247,12 +320,17 @@ public class SpreadSheetBeanPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_browseButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox aggregationTypeComboBox;
     private javax.swing.JButton browseButton;
     private javax.swing.JLabel datePatternPreview;
     private javax.swing.JTextField datePatternTextField;
     private javax.swing.JTextField filePathTextField;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JComboBox frequencyComboBox;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JTextField localeTextField;
     private javax.swing.JLabel numberPatternPreview;
     private javax.swing.JTextField numberPatternTextField;
