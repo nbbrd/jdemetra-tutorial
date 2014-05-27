@@ -29,12 +29,14 @@ public class RandomBean {
     static final IParam<DataSource, Integer> X_BQ = Params.onInteger(1, "bq");
     static final IParam<DataSource, double[]> X_COEFF = Params.onDoubleArray("coeff", -.8, -.6);
     static final IParam<DataSource, Integer> X_COUNT = Params.onInteger(100, "count");
+    static final IParam<DataSource, Double> X_STD = Params.onDouble(0.0, "stde");
     //
     int seed;
     int length;
     int p, d, q, s, bp, bd, bq;
     // the number of coeff must be p+bp+q+bq !!!
     double[] coeff;
+    double stde;
     int count;
 
     public RandomBean() {
@@ -49,6 +51,7 @@ public class RandomBean {
         this.bq = X_BQ.defaultValue();
         this.coeff = X_COEFF.defaultValue();
         this.count = X_COUNT.defaultValue();
+        this.stde=X_STD.defaultValue();
     }
 
     // GETTER/SETTERS >
@@ -139,6 +142,14 @@ public class RandomBean {
     public void setCount(int count) {
         this.count = count;
     }
+    
+    public double getStde(){
+        return this.stde;
+    }
+    
+    public void setStde(double e){
+        this.stde=e;
+    }
     // < GETTER/SETTERS
 
     public static RandomBean fromDataSource(DataSource dataSource) {
@@ -154,6 +165,7 @@ public class RandomBean {
         result.bq = X_BQ.get(dataSource);
         result.coeff = X_COEFF.get(dataSource);
         result.count = X_COUNT.get(dataSource);
+        result.stde = X_STD.get(dataSource);
         return result;
     }
 
@@ -170,6 +182,7 @@ public class RandomBean {
         X_BQ.set(builder, bq);
         X_COEFF.set(builder, coeff);
         X_COUNT.set(builder, count);
+        X_STD.set(builder, stde);
         return builder.build();
     }
 

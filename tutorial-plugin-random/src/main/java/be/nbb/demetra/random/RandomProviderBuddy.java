@@ -80,6 +80,11 @@ public class RandomProviderBuddy extends AbstractDataSourceProviderBuddy {
                 .attribute(FormattedPropertyEditor.FORMATTER_ATTRIBUTE, new DoubleArrayFormatter())
                 .display("Coeff")
                 .add();
+        b.withDouble()
+                .select(bean, "stde")
+                .min(0.0).max(1)
+                .display("Stde of coeff")
+                .add();
         result.add(b.build());
 
         b.reset("Other");

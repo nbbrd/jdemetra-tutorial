@@ -13,6 +13,8 @@ import ec.tss.tsproviders.utils.Params;
 import ec.tstoolkit.arima.ArimaModelBuilder;
 import ec.tstoolkit.random.XorshiftRNG;
 import ec.tstoolkit.sarima.SarimaModel;
+import ec.tstoolkit.sarima.SarimaModelBuilder;
+import ec.tstoolkit.sarima.estimation.SarimaMapping;
 import ec.tstoolkit.timeseries.simplets.TsData;
 import ec.tstoolkit.timeseries.simplets.TsFrequency;
 import java.io.IOException;
@@ -32,7 +34,7 @@ public class RandomProvider extends AbstractDataSourceLoader<double[][], RandomB
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RandomProvider.class);
     public static final String SOURCE = "RND";
-    public static final String VERSION = "20121021";
+    public static final String VERSION = "20140527";
     static final IParam<DataSet, Integer> Z_INDEX = Params.onInteger(0, "index");
 
     public RandomProvider() {
@@ -43,12 +45,19 @@ public class RandomProvider extends AbstractDataSourceLoader<double[][], RandomB
     protected double[][] loadFromBean(RandomBean bean) throws Exception {
         // 1. create a random engine based on arima
         SarimaModel arima = bean.toModel();
+        if (!arima.isValid(true)) {
+            arima.setDefault();
+        }
         ArimaModelBuilder builder = new ArimaModelBuilder();
+        SarimaModelBuilder sbuilder=new SarimaModelBuilder();
         builder.setRandomNumberGenerator(new XorshiftRNG(bean.getSeed()));
+        sbuilder.setRandomNumberGenerator(new XorshiftRNG(bean.getSeed()));
+        double e=bean.stde;
         // 2. generate data
         double[][] result = new double[bean.getCount()][];
         for (int i = 0; i < bean.getCount(); ++i) {
-            result[i] = builder.generate(arima, bean.getLength());
+            SarimaModel narima = sbuilder.randomize(arima, e);
+            result[i] = builder.generate(narima, bean.getLength());
         }
         return result;
     }
@@ -84,8 +93,8 @@ public class RandomProvider extends AbstractDataSourceLoader<double[][], RandomB
     @Override
     public String getDisplayName(DataSet dataSet) throws IllegalArgumentException {
         support.check(dataSet);
-        return String.format("%s - %s", 
-                getDisplayName(dataSet.getDataSource()), 
+        return String.format("%s - %s",
+                getDisplayName(dataSet.getDataSource()),
                 getDisplayNodeName(dataSet));
     }
 
