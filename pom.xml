@@ -4,7 +4,7 @@
 
     <groupId>be.nbb.demetra</groupId>
     <artifactId>tutorial-parent</artifactId>
-    <version>1.5.0</version>
+    <version>1.5.1</version>
     <packaging>pom</packaging>
 
     <name>tutorial-parent</name>
@@ -14,8 +14,8 @@
         <jdk.version>1.7</jdk.version>
         <brandingToken>nbbdemetra</brandingToken>
         <netbeans.version>RELEASE74</netbeans.version>
-        <nbdemetra.version>1.5.0</nbdemetra.version>
-        <jdemetra.version>1.5.0</jdemetra.version>
+        <nbdemetra.version>1.5.1</nbdemetra.version>
+        <jdemetra.version>1.5.1</jdemetra.version>
         <!-- plugins versions > -->
         <maven-compiler-plugin.version>3.1</maven-compiler-plugin.version>
         <maven-jar-plugin.version>2.4</maven-jar-plugin.version>
