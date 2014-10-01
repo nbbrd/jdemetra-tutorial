@@ -13,7 +13,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <jdk.version>1.7</jdk.version>
         <brandingToken>nbbdemetra</brandingToken>
-        <netbeans.version>RELEASE74</netbeans.version>
+        <netbeans.version>RELEASE801</netbeans.version>
         <nbdemetra.version>1.5.1</nbdemetra.version>
         <jdemetra.version>1.5.1</jdemetra.version>
         <!-- plugins versions > -->
