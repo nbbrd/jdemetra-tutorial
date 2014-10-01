@@ -1,6 +1,18 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright 2013 National Bank of Belgium
+ *
+ * Licensed under the EUPL, Version 1.1 or â€“ as soon they will be approved 
+ * by the European Commission - subsequent versions of the EUPL (the "Licence");
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * http://ec.europa.eu/idabc/eupl
+ *
+ * Unless required by applicable law or agreed to in writing, software 
+ * distributed under the Licence is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the Licence for the specific language governing permissions and 
+ * limitations under the Licence.
  */
 package be.nbb.demetra.dstats;
 
@@ -12,16 +24,16 @@ import org.openide.util.HelpCtx;
 import org.openide.util.Lookup;
 
 @OptionsPanelController.SubRegistration(location = "Demetra",
-displayName = "#AdvancedOption_DisplayName_Demo1",
-keywords = "#AdvancedOption_Keywords_Demo1",
-keywordsCategory = "Demetra/Demo1",
-id = Demo1OptionsPanelController.ID, position = 100)
-@org.openide.util.NbBundle.Messages({"AdvancedOption_DisplayName_Demo1=Demo1", "AdvancedOption_Keywords_Demo1=demo1"})
-public final class Demo1OptionsPanelController extends OptionsPanelController {
+        displayName = "#AdvancedOption_DisplayName_DStats",
+        keywords = "#AdvancedOption_Keywords_DStats",
+        keywordsCategory = "Demetra/DStats",
+        id = DStatsOptionsPanelController.ID, position = 100)
+@org.openide.util.NbBundle.Messages({"AdvancedOption_DisplayName_DStats=DStats", "AdvancedOption_Keywords_DStats=DStats"})
+public final class DStatsOptionsPanelController extends OptionsPanelController {
 
-    public static final String ID = "Demetra/Demo1";
-    
-    private Demo1Panel panel;
+    public static final String ID = "Demetra/DStats";
+
+    private DStatsPanel panel;
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
     private boolean changed;
 
@@ -39,7 +51,6 @@ public final class Demo1OptionsPanelController extends OptionsPanelController {
 
     @Override
     public void cancel() {
-        // need not do anything special, if no changes have been persisted yet
     }
 
     @Override
@@ -54,7 +65,7 @@ public final class Demo1OptionsPanelController extends OptionsPanelController {
 
     @Override
     public HelpCtx getHelpCtx() {
-        return null; // new HelpCtx("...ID") if you have a help set
+        return null;
     }
 
     @Override
@@ -72,9 +83,9 @@ public final class Demo1OptionsPanelController extends OptionsPanelController {
         pcs.removePropertyChangeListener(l);
     }
 
-    private Demo1Panel getPanel() {
+    private DStatsPanel getPanel() {
         if (panel == null) {
-            panel = new Demo1Panel(this);
+            panel = new DStatsPanel(this);
         }
         return panel;
     }

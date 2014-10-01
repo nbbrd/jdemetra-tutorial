@@ -1,6 +1,18 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright 2013 National Bank of Belgium
+ *
+ * Licensed under the EUPL, Version 1.1 or â€“ as soon they will be approved 
+ * by the European Commission - subsequent versions of the EUPL (the "Licence");
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * http://ec.europa.eu/idabc/eupl
+ *
+ * Unless required by applicable law or agreed to in writing, software 
+ * distributed under the Licence is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the Licence for the specific language governing permissions and 
+ * limitations under the Licence.
  */
 package be.nbb.demetra.dstats;
 
@@ -16,22 +28,22 @@ import org.openide.windows.InputOutput;
 
 /**
  *
- * @author charphi
+ * @author Philippe Charles
  */
-public final class DStatsHelper {
+final class DStatsHelper {
 
-    static final InputOutput IO = IOProvider.getDefault().getIO("Stats", new Action[]{new OpenSettingsAction()});
-    static final List<DStatItem> ITEMS = Lists.newArrayList(DStatItem.DATA_COUNT, DStatItem.MISSING_VALUES, DStatItem.STDEV);
+    static final InputOutput IO = IOProvider.getDefault().getIO("Stats", new Action[]{new OpenSettings()});
+    static final List<DStatsItem> ITEMS = Lists.newArrayList(DStatsItem.DATA_COUNT, DStatsItem.MISSING_VALUES, DStatsItem.STDEV);
 
-    static class OpenSettingsAction extends AbstractAction {
+    private static final class OpenSettings extends AbstractAction {
 
-        public OpenSettingsAction() {
+        public OpenSettings() {
             putValue(SMALL_ICON, ImageUtilities.loadImageIcon("/be/nbb/demetra/dstats/preferences-system.png", false));
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            OptionsDisplayer.getDefault().open(Demo1OptionsPanelController.ID);
+            OptionsDisplayer.getDefault().open(DStatsOptionsPanelController.ID);
         }
     }
 }

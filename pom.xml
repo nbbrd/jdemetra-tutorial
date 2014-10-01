@@ -31,7 +31,6 @@
     <modules>
         <module>tutorial-branding</module>
         <module>tutorial-app</module>
-        <module>tutorial-dstats</module>
         <module>tutorial-plugin-dstats</module>
         <module>tutorial-plugin-various</module>
         <module>tutorial-plugin-random</module>
@@ -67,11 +66,6 @@
                 <scope>import</scope>
             </dependency>
             <!-- Modules -->
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>tutorial-dstats</artifactId>
-                <version>${project.version}</version>
-            </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>tutorial-branding</artifactId>

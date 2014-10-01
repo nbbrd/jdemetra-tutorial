@@ -9,17 +9,17 @@ import java.awt.event.ActionEvent;
 import javax.swing.*;
 import org.openide.awt.DropDownButtonFactory;
 
-final class Demo1Panel extends javax.swing.JPanel {
+final class DStatsPanel extends javax.swing.JPanel {
 
-    private final Demo1OptionsPanelController controller;
+    private final DStatsOptionsPanelController controller;
     private final JPopupMenu dropDownMenu;
 
-    Demo1Panel(Demo1OptionsPanelController controller) {
+    DStatsPanel(DStatsOptionsPanelController controller) {
         this.controller = controller;
         dropDownMenu = new JPopupMenu();
         initComponents();
         jList1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        for (final DStatItem o : DStatItem.values()) {
+        for (final DStatsItem o : DStatsItem.values()) {
             dropDownMenu.add(new AbstractAction(o.name()) {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -50,21 +50,21 @@ final class Demo1Panel extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList();
 
-        org.openide.awt.Mnemonics.setLocalizedText(jLabel1, org.openide.util.NbBundle.getMessage(Demo1Panel.class, "Demo1Panel.jLabel1.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(jLabel1, org.openide.util.NbBundle.getMessage(DStatsPanel.class, "DStatsPanel.jLabel1.text")); // NOI18N
 
         jToolBar1.setFloatable(false);
         jToolBar1.setOrientation(javax.swing.SwingConstants.VERTICAL);
         jToolBar1.setRollover(true);
 
         addBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ec/nbdemetra/ui/list-add_16x16.png"))); // NOI18N
-        org.openide.awt.Mnemonics.setLocalizedText(addBtn, org.openide.util.NbBundle.getMessage(Demo1Panel.class, "Demo1Panel.addBtn.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(addBtn, org.openide.util.NbBundle.getMessage(DStatsPanel.class, "DStatsPanel.addBtn.text")); // NOI18N
         addBtn.setFocusable(false);
         addBtn.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         addBtn.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jToolBar1.add(addBtn);
 
         removeBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ec/nbdemetra/ui/list-remove_16x16.png"))); // NOI18N
-        org.openide.awt.Mnemonics.setLocalizedText(removeBtn, org.openide.util.NbBundle.getMessage(Demo1Panel.class, "Demo1Panel.removeBtn.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(removeBtn, org.openide.util.NbBundle.getMessage(DStatsPanel.class, "DStatsPanel.removeBtn.text")); // NOI18N
         removeBtn.setEnabled(false);
         removeBtn.setFocusable(false);
         removeBtn.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -77,7 +77,7 @@ final class Demo1Panel extends javax.swing.JPanel {
         jToolBar1.add(removeBtn);
 
         upBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ec/nbdemetra/ui/go-up_16x16.png"))); // NOI18N
-        org.openide.awt.Mnemonics.setLocalizedText(upBtn, org.openide.util.NbBundle.getMessage(Demo1Panel.class, "Demo1Panel.upBtn.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(upBtn, org.openide.util.NbBundle.getMessage(DStatsPanel.class, "DStatsPanel.upBtn.text")); // NOI18N
         upBtn.setEnabled(false);
         upBtn.setFocusable(false);
         upBtn.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -90,7 +90,7 @@ final class Demo1Panel extends javax.swing.JPanel {
         jToolBar1.add(upBtn);
 
         downBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ec/nbdemetra/ui/go-down_16x16.png"))); // NOI18N
-        org.openide.awt.Mnemonics.setLocalizedText(downBtn, org.openide.util.NbBundle.getMessage(Demo1Panel.class, "Demo1Panel.downBtn.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(downBtn, org.openide.util.NbBundle.getMessage(DStatsPanel.class, "DStatsPanel.downBtn.text")); // NOI18N
         downBtn.setEnabled(false);
         downBtn.setFocusable(false);
         downBtn.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -167,7 +167,7 @@ final class Demo1Panel extends javax.swing.JPanel {
     void load() {
         DefaultListModel model = (DefaultListModel) jList1.getModel();
         model.clear();
-        for (DStatItem o : DStatsHelper.ITEMS) {
+        for (DStatsItem o : DStatsHelper.ITEMS) {
             model.addElement(o);
         }
     }
@@ -176,7 +176,7 @@ final class Demo1Panel extends javax.swing.JPanel {
         DStatsHelper.ITEMS.clear();
         DefaultListModel model = (DefaultListModel) jList1.getModel();
         for (Object o : model.toArray()) {
-            DStatsHelper.ITEMS.add((DStatItem) o);
+            DStatsHelper.ITEMS.add((DStatsItem) o);
         }
     }
 

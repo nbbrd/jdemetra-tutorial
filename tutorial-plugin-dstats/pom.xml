@@ -75,23 +75,6 @@
             <artifactId>nbdemetra-ui</artifactId>
         </dependency>
         
-        <!-- Specific -->
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>tutorial-dstats</artifactId>
-            <exclusions>
-                <!-- tstoolkit is already provided by nbdemetra-core -->
-                <exclusion>
-                    <groupId>eu.europa.ec.joinup.sat</groupId>
-                    <artifactId>demetra-tstoolkit</artifactId>
-                </exclusion>
-                <!-- dstats is used as a lib here, so cli is useless -->
-                <exclusion>
-                    <groupId>org.netbeans.api</groupId>
-                    <artifactId>org-netbeans-modules-sendopts</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>

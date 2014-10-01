@@ -1,9 +1,22 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright 2013 National Bank of Belgium
+ *
+ * Licensed under the EUPL, Version 1.1 or â€“ as soon they will be approved 
+ * by the European Commission - subsequent versions of the EUPL (the "Licence");
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * http://ec.europa.eu/idabc/eupl
+ *
+ * Unless required by applicable law or agreed to in writing, software 
+ * distributed under the Licence is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the Licence for the specific language governing permissions and 
+ * limitations under the Licence.
  */
 package be.nbb.demetra.dstats;
 
+import ec.nbdemetra.ui.DemetraUI;
 import ec.nbdemetra.ui.tsproviders.SeriesNode;
 import ec.tss.Ts;
 import ec.tss.TsInformationType;
@@ -23,7 +36,7 @@ import org.openide.windows.*;
 
 /**
  *
- * @author charphi
+ * @author Philippe Charles
  */
 @ActionID(category = "Edit", id = "be.nbb.demetra.dstats.DStatsAction")
 @ActionRegistration(displayName = "#CTL_DStatsAction")
@@ -55,7 +68,7 @@ public class DStatsAction implements ActionListener {
             out.println(title, new TsHyperLinkListener(ts));
 
             // 4. output details
-            for (DStatItem o : DStatsHelper.ITEMS) {
+            for (DStatsItem o : DStatsHelper.ITEMS) {
                 out.print(o.getDisplayName());
                 out.print(": ");
                 out.print(o.getValue(stats));
@@ -64,6 +77,31 @@ public class DStatsAction implements ActionListener {
             //out.close();
         } catch (IOException ex) {
             Exceptions.printStackTrace(ex);
+        }
+    }
+
+    /**
+     * When clicked, it opens a TimeSeries with the default TsAction.
+     */
+    private static final class TsHyperLinkListener implements OutputListener {
+
+        private final Ts ts;
+
+        public TsHyperLinkListener(Ts ts) {
+            this.ts = ts;
+        }
+
+        @Override
+        public void outputLineSelected(OutputEvent ev) {
+        }
+
+        @Override
+        public void outputLineAction(OutputEvent ev) {
+            DemetraUI.getDefault().getTsAction().open(ts);
+        }
+
+        @Override
+        public void outputLineCleared(OutputEvent ev) {
         }
     }
 }
