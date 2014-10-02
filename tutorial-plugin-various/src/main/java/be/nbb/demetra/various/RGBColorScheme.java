@@ -1,13 +1,26 @@
+/*
+ * Copyright 2013 National Bank of Belgium
+ *
+ * Licensed under the EUPL, Version 1.1 or â€“ as soon they will be approved 
+ * by the European Commission - subsequent versions of the EUPL (the "Licence");
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * http://ec.europa.eu/idabc/eupl
+ *
+ * Unless required by applicable law or agreed to in writing, software 
+ * distributed under the Licence is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the Licence for the specific language governing permissions and 
+ * limitations under the Licence.
+ */
 package be.nbb.demetra.various;
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 import ec.util.chart.ColorScheme;
 import static ec.util.chart.ColorSchemeSupport.rgb;
 import ec.util.chart.impl.AbstractColorScheme;
 import ec.util.chart.impl.BasicColor;
+import static ec.util.chart.impl.BasicColor.*;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -16,10 +29,10 @@ import org.openide.util.lookup.ServiceProvider;
 /**
  * A basic color scheme for charts.
  *
- * @author charphi
+ * @author Philippe Charles
  */
 @ServiceProvider(service = ColorScheme.class)
-public class RGBColorScheme extends AbstractColorScheme {
+public final class RGBColorScheme extends AbstractColorScheme {
 
     @Override
     public String getName() {
@@ -28,19 +41,13 @@ public class RGBColorScheme extends AbstractColorScheme {
 
     @Override
     public List<Integer> getAreaColors() {
-        return Arrays.asList(BasicColor.RED, BasicColor.GREEN, BasicColor.BLUE);
+        return Arrays.asList(RED, GREEN, BLUE);
     }
 
     @Override
     public Map<KnownColor, Integer> getAreaKnownColors() {
-        return knownColors(
-                BasicColor.BLUE,
-                BasicColor.DARK_GRAY,
-                BasicColor.GRAY,
-                BasicColor.GREEN,
-                rgb(255, 200, 0),
-                BasicColor.RED,
-                BasicColor.YELLOW);
+        int orange = rgb(255, 200, 0);
+        return knownColors(BLUE, DARK_GRAY, GRAY, GREEN, orange, RED, YELLOW);
     }
 
     @Override
@@ -50,11 +57,11 @@ public class RGBColorScheme extends AbstractColorScheme {
 
     @Override
     public int getPlotColor() {
-        return BasicColor.WHITE;
+        return WHITE;
     }
 
     @Override
     public int getGridColor() {
-        return BasicColor.LIGHT_GRAY;
+        return LIGHT_GRAY;
     }
 }
