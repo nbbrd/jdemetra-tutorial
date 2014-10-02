@@ -1,6 +1,18 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright 2013 National Bank of Belgium
+ *
+ * Licensed under the EUPL, Version 1.1 or â€“ as soon they will be approved 
+ * by the European Commission - subsequent versions of the EUPL (the "Licence");
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * http://ec.europa.eu/idabc/eupl
+ *
+ * Unless required by applicable law or agreed to in writing, software 
+ * distributed under the Licence is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the Licence for the specific language governing permissions and 
+ * limitations under the Licence.
  */
 package be.nbb.demetra.random;
 
@@ -14,7 +26,6 @@ import ec.tstoolkit.arima.ArimaModelBuilder;
 import ec.tstoolkit.random.XorshiftRNG;
 import ec.tstoolkit.sarima.SarimaModel;
 import ec.tstoolkit.sarima.SarimaModelBuilder;
-import ec.tstoolkit.sarima.estimation.SarimaMapping;
 import ec.tstoolkit.timeseries.simplets.TsData;
 import ec.tstoolkit.timeseries.simplets.TsFrequency;
 import java.io.IOException;
@@ -26,8 +37,8 @@ import org.slf4j.LoggerFactory;
 
 /**
  *
- * @author palatej
- * @author charphi
+ * @author Jean Palate
+ * @author Philippe Charles
  */
 @ServiceProvider(service = ITsProvider.class)
 public class RandomProvider extends AbstractDataSourceLoader<double[][], RandomBean> {
@@ -49,10 +60,10 @@ public class RandomProvider extends AbstractDataSourceLoader<double[][], RandomB
             arima.setDefault();
         }
         ArimaModelBuilder builder = new ArimaModelBuilder();
-        SarimaModelBuilder sbuilder=new SarimaModelBuilder();
+        SarimaModelBuilder sbuilder = new SarimaModelBuilder();
         builder.setRandomNumberGenerator(new XorshiftRNG(bean.getSeed()));
         sbuilder.setRandomNumberGenerator(new XorshiftRNG(bean.getSeed()));
-        double e=bean.stde;
+        double e = bean.stde;
         // 2. generate data
         double[][] result = new double[bean.getCount()][];
         for (int i = 0; i < bean.getCount(); ++i) {
