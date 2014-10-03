@@ -16,19 +16,25 @@
  */
 package be.nbb.demetra.random;
 
+import static be.nbb.demetra.random.RandomProvider.Z_INDEX;
 import com.google.common.collect.Lists;
 import ec.nbdemetra.ui.properties.FormattedPropertyEditor;
 import ec.nbdemetra.ui.properties.NodePropertySetBuilder;
 import ec.nbdemetra.ui.tsproviders.AbstractDataSourceProviderBuddy;
 import ec.nbdemetra.ui.tsproviders.IDataSourceProviderBuddy;
+import ec.tss.tsproviders.DataSet;
+import ec.tss.tsproviders.DataSource;
 import ec.tss.tsproviders.utils.Formatters;
 import ec.tss.tsproviders.utils.Parsers;
+import ec.util.chart.impl.TangoColorScheme;
+import ec.util.chart.swing.SwingColorSchemeSupport;
+import ec.util.various.swing.FontAwesome;
+import java.awt.Color;
 import java.awt.Image;
 import java.text.ParseException;
 import java.util.List;
 import javax.swing.JFormattedTextField;
 import org.openide.nodes.Sheet.Set;
-import org.openide.util.ImageUtilities;
 import org.openide.util.lookup.ServiceProvider;
 
 /**
@@ -45,8 +51,25 @@ public class RandomProviderBuddy extends AbstractDataSourceProviderBuddy {
 
     @Override
     public Image getIcon(int type, boolean opened) {
-        // this overrides the default icon
-        return ImageUtilities.loadImage("/document-binary.png", false);
+        return FontAwesome.FA_RANDOM.getImage(Color.BLACK, 14f);
+    }
+
+    @Override
+    public Image getIcon(DataSource dataSource, int type, boolean opened) {
+        boolean monthly = RandomBean.X_S.get(dataSource) == 12;
+        int color = monthly ? TangoColorScheme.DARK_SKY_BLUE : TangoColorScheme.DARK_SCARLET_RED;
+        return FontAwesome.FA_RANDOM.getImage(SwingColorSchemeSupport.rgbToColor(color), 14f);
+    }
+
+    @Override
+    public Image getIcon(DataSet dataSet, int type, boolean opened) {
+        switch (dataSet.getKind()) {
+            case SERIES:
+                boolean even = Z_INDEX.get(dataSet) % 2 == 0;
+                int color = even ? TangoColorScheme.DARK_PLUM : TangoColorScheme.DARK_SKY_BLUE;
+                return FontAwesome.FA_CARET_SQUARE_O_RIGHT.getImage(SwingColorSchemeSupport.rgbToColor(color), 14f);
+        }
+        return super.getIcon(dataSet, type, opened);
     }
 
     @Override
@@ -112,7 +135,7 @@ public class RandomProviderBuddy extends AbstractDataSourceProviderBuddy {
     /**
      * Class used to convert double[] from/to String in a JFormattedTextField.
      */
-    static class DoubleArrayFormatter extends JFormattedTextField.AbstractFormatter {
+    private static final class DoubleArrayFormatter extends JFormattedTextField.AbstractFormatter {
 
         @Override
         public Object stringToValue(String text) throws ParseException {
