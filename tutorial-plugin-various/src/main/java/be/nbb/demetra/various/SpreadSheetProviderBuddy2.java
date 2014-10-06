@@ -16,6 +16,7 @@
  */
 package be.nbb.demetra.various;
 
+import ec.tss.tsproviders.spreadsheet.engine.SpreadSheetSeries;
 import ec.nbdemetra.spreadsheet.SpreadsheetProviderBuddy;
 import ec.nbdemetra.ui.tsproviders.IDataSourceProviderBuddy;
 import ec.tss.tsproviders.DataSet;
@@ -23,9 +24,9 @@ import ec.tss.tsproviders.DataSource;
 import ec.tss.tsproviders.TsProviders;
 import ec.tss.tsproviders.spreadsheet.SpreadSheetBean;
 import ec.tss.tsproviders.spreadsheet.SpreadSheetProvider;
-import ec.tss.tsproviders.spreadsheet.engine.SpreadSheetCollection;
 import static ec.util.chart.impl.TangoColorScheme.ALUMINIUM6;
 import static ec.util.chart.impl.TangoColorScheme.DARK_PLUM;
+import static ec.util.chart.impl.TangoColorScheme.DARK_SCARLET_RED;
 import static ec.util.chart.impl.TangoColorScheme.DARK_SKY_BLUE;
 import static ec.util.chart.impl.TangoColorScheme.LIGHT_SKY_BLUE;
 import static ec.util.chart.swing.SwingColorSchemeSupport.rgbToColor;
@@ -71,11 +72,16 @@ public class SpreadSheetProviderBuddy2 extends SpreadsheetProviderBuddy {
             case COLLECTION:
                 return opened ? icons.collectionOpen : icons.collection;
             case SERIES:
-                switch (getAlignType(dataSet)) {
-                    case VERTICAL:
-                        return icons.seriesVertical;
-                    case HORIZONTAL:
-                        return icons.seriesHorizontal;
+                SpreadSheetSeries series = getSeries(dataSet);
+                if (series != null && series.data.isPresent()) {
+                    switch (series.alignType) {
+                        case VERTICAL:
+                            return icons.seriesVertical;
+                        case HORIZONTAL:
+                            return icons.seriesHorizontal;
+                    }
+                } else {
+                    return icons.seriesEmpty;
                 }
                 break;
         }
@@ -100,11 +106,11 @@ public class SpreadSheetProviderBuddy2 extends SpreadsheetProviderBuddy {
         return false;
     }
 
-    private SpreadSheetCollection.AlignType getAlignType(DataSet dataSet) {
+    private SpreadSheetSeries getSeries(DataSet dataSet) {
         try {
-            return TsProviders.lookup(SpreadSheetProvider.class, SpreadSheetProvider.SOURCE).get().getSeries(dataSet).alignType;
+            return TsProviders.lookup(SpreadSheetProvider.class, SpreadSheetProvider.SOURCE).get().getSeries(dataSet);
         } catch (IOException ex) {
-            return SpreadSheetCollection.AlignType.UNKNOWN;
+            return null;
         }
     }
 
@@ -128,12 +134,14 @@ public class SpreadSheetProviderBuddy2 extends SpreadsheetProviderBuddy {
         final Image collectionOpen;
         final Image seriesVertical;
         final Image seriesHorizontal;
+        final Image seriesEmpty;
 
         private static final Color PROVIDER_COLOR = rgbToColor(ALUMINIUM6);
         private static final Color SOURCE_COLOR = rgbToColor(DARK_SKY_BLUE);
         private static final Color COLLECTION_COLOR = rgbToColor(LIGHT_SKY_BLUE);
         private static final Color SERIES_BACK_COLOR = withAlpha(rgbToColor(LIGHT_SKY_BLUE), 150);
         private static final Color SERIES_FRONT_COLOR = rgbToColor(DARK_PLUM);
+        private static final Color SERIES_EMPTY_COLOR = withAlpha(rgbToColor(DARK_SCARLET_RED), 150);
 
         Icons(BeanIconType type) {
             float size = toSize(type);
@@ -146,6 +154,7 @@ public class SpreadSheetProviderBuddy2 extends SpreadsheetProviderBuddy {
             Image frontH = FA_ELLIPSIS_H.getImage(SERIES_FRONT_COLOR, size);
             this.seriesVertical = ImageUtilities.mergeImages(back, frontV, 0, 0);
             this.seriesHorizontal = ImageUtilities.mergeImages(back, frontH, 0, 0);
+            this.seriesEmpty = FA_TH.getImage(SERIES_EMPTY_COLOR, size);
         }
 
         private static float toSize(BeanIconType type) {
