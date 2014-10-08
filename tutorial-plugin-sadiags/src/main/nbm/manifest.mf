@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+OpenIDE-Module-Localizing-Bundle: be/nbb/demetra/tutorial/plugin/sadiags/Bundle.properties
+OpenIDE-Module-Install: be/nbb/demetra/tutorial/plugin/sadiags/Installer.class
+

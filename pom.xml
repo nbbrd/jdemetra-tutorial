@@ -34,6 +34,7 @@
         <module>tutorial-plugin-dstats</module>
         <module>tutorial-plugin-various</module>
         <module>tutorial-plugin-random</module>
+        <module>tutorial-plugin-sadiags</module>
     </modules>
 
     <repositories>
