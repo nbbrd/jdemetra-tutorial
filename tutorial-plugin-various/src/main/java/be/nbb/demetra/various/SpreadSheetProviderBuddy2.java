@@ -16,11 +16,14 @@
  */
 package be.nbb.demetra.various;
 
+import com.google.common.base.Optional;
 import ec.tss.tsproviders.spreadsheet.engine.SpreadSheetSeries;
 import ec.nbdemetra.spreadsheet.SpreadsheetProviderBuddy;
 import ec.nbdemetra.ui.tsproviders.IDataSourceProviderBuddy;
+import ec.tss.TsMoniker;
 import ec.tss.tsproviders.DataSet;
 import ec.tss.tsproviders.DataSource;
+import ec.tss.tsproviders.IDataSourceProvider;
 import ec.tss.tsproviders.TsProviders;
 import ec.tss.tsproviders.spreadsheet.SpreadSheetBean;
 import ec.tss.tsproviders.spreadsheet.SpreadSheetProvider;
@@ -89,6 +92,12 @@ public class SpreadSheetProviderBuddy2 extends SpreadsheetProviderBuddy {
     }
 
     @Override
+    public Image getIcon(TsMoniker moniker, int type, boolean opened) {
+        DataSet dataSet = toDataSet(moniker);
+        return dataSet != null ? getIcon(dataSet, type, opened) : super.getIcon(moniker, type, opened);
+    }
+
+    @Override
     public boolean editBean(String title, Object bean) throws IntrospectionException {
         SpreadSheetBeanPanel v = new SpreadSheetBeanPanel();
         v.loadBean((SpreadSheetBean) bean);
@@ -104,6 +113,17 @@ public class SpreadSheetProviderBuddy2 extends SpreadsheetProviderBuddy {
             return true;
         }
         return false;
+    }
+
+    private static DataSet toDataSet(TsMoniker moniker) {
+        Optional<IDataSourceProvider> provider = TsProviders.lookup(IDataSourceProvider.class, moniker);
+        if (provider.isPresent()) {
+            DataSet dataSet = provider.get().toDataSet(moniker);
+            if (dataSet != null) {
+                return dataSet;
+            }
+        }
+        return null;
     }
 
     private SpreadSheetSeries getSeries(DataSet dataSet) {
