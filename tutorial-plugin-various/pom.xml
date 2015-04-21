@@ -4,7 +4,7 @@
     <parent>
         <groupId>be.nbb.demetra</groupId>
         <artifactId>tutorial-parent</artifactId>
-        <version>1.5.2</version>
+        <version>2.0.0</version>
     </parent>
 
     <artifactId>tutorial-plugin-various</artifactId>
