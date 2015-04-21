@@ -115,6 +115,7 @@ public class SpreadSheetProviderBuddy2 extends SpreadsheetProviderBuddy {
         return false;
     }
 
+    //<editor-fold defaultstate="collapsed" desc="Internal implementation">
     private static DataSet toDataSet(TsMoniker moniker) {
         Optional<IDataSourceProvider> provider = TsProviders.lookup(IDataSourceProvider.class, moniker);
         if (provider.isPresent()) {
@@ -209,4 +210,5 @@ public class SpreadSheetProviderBuddy2 extends SpreadsheetProviderBuddy {
             return UNKNOWN;
         }
     }
+    //</editor-fold>
 }
