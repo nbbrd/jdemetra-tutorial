@@ -1,3 +1,2 @@
 Manifest-Version: 1.0
 OpenIDE-Module-Localizing-Bundle: be/nbb/demetra/various/Bundle.properties
-OpenIDE-Module-Install: be/nbb/demetra/x11/Installer.class
