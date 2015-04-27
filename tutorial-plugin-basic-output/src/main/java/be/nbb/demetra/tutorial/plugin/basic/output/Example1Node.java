@@ -1,8 +1,9 @@
 /*
- * To change this template, choose Tools | Templates
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package be.nbb.demetra.tutorial.plugin.output.seats;
+package be.nbb.demetra.tutorial.plugin.basic.output;
 
 import ec.nbdemetra.sa.output.AbstractOutputNode;
 import ec.nbdemetra.ui.properties.NodePropertySetBuilder;
@@ -10,25 +11,27 @@ import ec.tss.sa.ISaOutputFactory;
 import org.openide.nodes.Sheet;
 
 /**
- *
- * @author pcuser
+ * For NetBeans only.
+ * Represents the node in the list of the output.
+ * It should provide the properties of the underlying configuration
+ * @author Jean Palate
  */
-public class XmlSeatsNode extends AbstractOutputNode<XmlSeatsOutputConfiguration> {
+public class Example1Node extends AbstractOutputNode<Example1Config> {
 
 
-    public XmlSeatsNode() {
-        super(new XmlSeatsOutputConfiguration());
-        setDisplayName(XmlSeatsOutputFactory.NAME);
+    public Example1Node() {
+        super(new Example1Config());
+        setDisplayName(Example1OutputFactory.NAME);
     }
     
-    public XmlSeatsNode(XmlSeatsOutputConfiguration config) {
+    public Example1Node(Example1Config config) {
         super(config);
-        setDisplayName(XmlSeatsOutputFactory.NAME);
+        setDisplayName(Example1OutputFactory.NAME);
     }
 
     @Override
     protected Sheet createSheet() {
-        XmlSeatsOutputConfiguration config = getLookup().lookup(XmlSeatsOutputConfiguration.class);
+        Example1Config config = getLookup().lookup(Example1Config.class);
         Sheet sheet = super.createSheet();
         NodePropertySetBuilder builder = new NodePropertySetBuilder();
         
@@ -42,7 +45,7 @@ public class XmlSeatsNode extends AbstractOutputNode<XmlSeatsOutputConfiguration
 
     @Override
     public ISaOutputFactory getFactory() {
-        return new XmlSeatsOutputFactory(getLookup().lookup(XmlSeatsOutputConfiguration.class));
+        return new Example1OutputFactory(getLookup().lookup(Example1Config.class));
     }
     
 }

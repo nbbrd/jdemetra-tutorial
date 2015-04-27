@@ -41,7 +41,7 @@ public class CsvSeasonalityOutput implements IOutput<SaDocument<ISaSpecification
 
     public static final Logger LOGGER = LoggerFactory.getLogger(CsvSeasonalityOutputFactory.class);
     private final CsvSeasonalityOutputConfiguration config_;
-    private final List<NamedObject<IProcResults>> infos_=new ArrayList<>();
+    private final List<NamedObject<IProcResults>> infos_ = new ArrayList<>();
     private File folder_;
 
     public CsvSeasonalityOutput(CsvSeasonalityOutputConfiguration config) {
@@ -50,7 +50,7 @@ public class CsvSeasonalityOutput implements IOutput<SaDocument<ISaSpecification
 
     @Override
     public void process(SaDocument<ISaSpecification> document) {
-        infos_.add(new NamedObject<IProcResults>(document.getInput().getName(), 
+        infos_.add(new NamedObject<IProcResults>(document.getInput().getName(),
                 new SeasonalityTestsResults(document, config_.getSeries(), config_.getTests(), config_.getLast())));
 //       summary_.add(Jdk6.Collections.toArray(config_.getSeries(), String.class), document);
     }
@@ -65,9 +65,10 @@ public class CsvSeasonalityOutput implements IOutput<SaDocument<ISaSpecification
         CsvInformationFormatter fmt = new CsvInformationFormatter();
         String file = Paths.concatenate(folder_.getAbsolutePath(), config_.getFileName());
         file = Paths.changeExtension(file, "csv");
-        FileOutputStream matrix = new FileOutputStream(file);
-        OutputStreamWriter writer = new OutputStreamWriter(matrix, StandardCharsets.ISO_8859_1);
-        fmt.formatResults(writer, infos_, config_.getItems(config_.getDetail()), true);
+        try (FileOutputStream matrix = new FileOutputStream(file)) {
+            OutputStreamWriter writer = new OutputStreamWriter(matrix, StandardCharsets.ISO_8859_1);
+            fmt.formatResults(writer, infos_, config_.getItems(config_.getDetail()), true);
+        }
         infos_.clear();
     }
 
