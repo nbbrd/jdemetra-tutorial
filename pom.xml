@@ -13,7 +13,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <jdk.version>1.7</jdk.version>
         <brandingToken>nbbdemetra</brandingToken>
-        <netbeans.version>RELEASE801</netbeans.version>
+        <netbeans.version>RELEASE802</netbeans.version>
         <nbdemetra.version>2.0.0</nbdemetra.version>
         <jdemetra.version>2.0.0</jdemetra.version>
         <!-- plugins versions > -->
@@ -35,6 +35,8 @@
         <module>tutorial-plugin-various</module>
         <module>tutorial-plugin-random</module>
         <module>tutorial-plugin-sadiags</module>
+        <module>tutorial-plugin-output</module>
+        <module>tutorial-plugin-basic-output</module>
     </modules>
 
     <repositories>
