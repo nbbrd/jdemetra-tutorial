@@ -23,18 +23,21 @@ A simple application that allows to test the plugins of the tutorial.
 A plugin that generates some descriptive statistics of time series by using a context menu in the providers window.
 ### tutorial-plugin-random
 A plugin that adds a new time series provider. This provider generates pseudo-random time series using Arima.
+
 ### tutorial-plugin-various
 A plugin that adds several features to JDemetra+ such as:
 
 * A custom report in X13 seasonal ajustment
 * A basic color scheme
 * A new action in the context menu of the providers window
-* A improved dialog for adding spreadsheets as data sources
+* An improved dialog for adding spreadsheets as data sources
+
 ### tutorial-plugin-basic-output
 A plugin that adds two simple text outputs to JDemetra+:
 
 * A single report for all the series
 * A text output for each series
+
 ### tutorial-plugin-output
 A plugin that adds two advanced outputs to JDemetra+:
 
