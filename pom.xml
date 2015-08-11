@@ -55,15 +55,15 @@
         <dependencies>
             <dependency>
                 <groupId>eu.europa.ec.joinup.sat</groupId>
-                <artifactId>nbdemetra-parent</artifactId>
-                <version>${nbdemetra.version}</version>
+                <artifactId>demetra-utils</artifactId>
+                <version>${jdemetra.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
             <dependency>
                 <groupId>eu.europa.ec.joinup.sat</groupId>
-                <artifactId>demetra-utils</artifactId>
-                <version>${jdemetra.version}</version>
+                <artifactId>nbdemetra-parent</artifactId>
+                <version>${nbdemetra.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

@@ -34,6 +34,8 @@ import org.openide.windows.InputOutput;
 final class DStatsHelper {
 
     static final InputOutput IO = IOProvider.getDefault().getIO("Stats", new Action[]{new OpenSettings()});
+    static final InputOutput CHECK = IOProvider.getDefault().getIO("Quality control", null);
+    static final InputOutput COMPARE = IOProvider.getDefault().getIO("Compare", null);
     static final List<DStatsItem> ITEMS = Lists.newArrayList(DStatsItem.DATA_COUNT, DStatsItem.MISSING_VALUES, DStatsItem.STDEV);
 
     private static final class OpenSettings extends AbstractAction {

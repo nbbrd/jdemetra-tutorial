@@ -42,6 +42,10 @@
         -->
 
         <dependency>
+            <groupId>eu.europa.ec.joinup.sat</groupId>
+            <artifactId>nbdemetra-spreadsheet</artifactId>
+        </dependency>
+        <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>tutorial-branding</artifactId>
         </dependency>
@@ -58,12 +62,8 @@
             <artifactId>tutorial-plugin-random</artifactId>
         </dependency>
               
-        <dependency>
-            <groupId>eu.europa.ec.joinup.sat</groupId>
-            <artifactId>nbdemetra-spreadsheet</artifactId>
-        </dependency>
         
-<!--        <dependency>
+        <!--        <dependency>
             <groupId>be.nbb.demetra</groupId>
             <artifactId>nbb-color-scheme</artifactId>
             <version>1.0.0</version>
@@ -75,6 +75,10 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>nbm-maven-plugin</artifactId>
+                <configuration>
+                    <!--installersFilePrefix>helloworld</installersFilePrefix-->
+                    <etcConfFile>src/main/resources/nbbdemetra.conf</etcConfFile>
+                </configuration>
             </plugin>
             <!-- Permits NbModuleSuite to be run in integration-test phase: -->
             <plugin>
