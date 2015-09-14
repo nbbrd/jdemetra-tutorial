@@ -32,7 +32,9 @@ import org.openide.awt.ActionReferences;
 import org.openide.awt.ActionRegistration;
 import org.openide.util.Exceptions;
 import org.openide.util.NbBundle.Messages;
-import org.openide.windows.*;
+import org.openide.windows.OutputEvent;
+import org.openide.windows.OutputListener;
+import org.openide.windows.OutputWriter;
 
 /**
  *
@@ -83,7 +85,7 @@ public class DStatsAction implements ActionListener {
     /**
      * When clicked, it opens a TimeSeries with the default TsAction.
      */
-    private static final class TsHyperLinkListener implements OutputListener {
+    static final class TsHyperLinkListener implements OutputListener {
 
         private final Ts ts;
 

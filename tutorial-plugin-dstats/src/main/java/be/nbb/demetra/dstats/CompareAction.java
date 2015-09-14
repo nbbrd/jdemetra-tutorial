@@ -15,15 +15,14 @@ import ec.tss.TsInformationType;
 import ec.tss.tsproviders.DataSet;
 import ec.tss.tsproviders.TsProviders;
 import ec.tstoolkit.algorithm.CompositeResults;
-import ec.tstoolkit.data.DescriptiveStatistics;
+import ec.tstoolkit.timeseries.TsPeriodSelector;
+import ec.tstoolkit.timeseries.simplets.TsData;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.awt.ActionReferences;
 import org.openide.awt.ActionRegistration;
-import org.openide.util.Exceptions;
 import org.openide.util.NbBundle.Messages;
 import org.openide.windows.OutputWriter;
 
@@ -49,16 +48,20 @@ public final class CompareAction implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent ev) {
         Ts ts = TsProviders.getTs(context.getLookup().lookup(DataSet.class), TsInformationType.Data).get();
-        TramoSeatsSpecification[] allts = TramoSeatsSpecification.allSpecifications();
-        CompositeResults[] trs = new CompositeResults[allts.length];
-        for (int i = 0; i < trs.length; ++i) {
-            trs[i] = TramoSeatsProcessingFactory.process(ts.getTsData(), allts[i]);
-        }
-        X13Specification[] allx = X13Specification.allSpecifications();
-        CompositeResults[] xs = new CompositeResults[allx.length];
-        for (int i = 0; i < xs.length; ++i) {
-            xs[i] = X13ProcessingFactory.process(ts.getTsData(), allx[i]);
-        }
+        ts.load(TsInformationType.Data);
+        TsData s=ts.getTsData();
+        if (s == null)
+            return;
+//        TramoSeatsSpecification[] allts = TramoSeatsSpecification.allSpecifications();
+//        CompositeResults[] trs = new CompositeResults[allts.length];
+//        for (int i = 0; i < trs.length; ++i) {
+//            trs[i] = TramoSeatsProcessingFactory.process(s, allts[i]);
+//        }
+//        X13Specification[] allx = X13Specification.allSpecifications();
+//        CompositeResults[] xs = new CompositeResults[allx.length];
+//        for (int i = 0; i < xs.length; ++i) {
+//            xs[i] = X13ProcessingFactory.process(s, allx[i]);
+//        }
         // 2. get output window
         DStatsHelper.COMPARE.select();
         // 3. output header
@@ -66,16 +69,21 @@ public final class CompareAction implements ActionListener {
             // 3. output header
             String title = ts.getName() + " (" + ts.getMoniker().getSource() + ")";
             out.println(title);
-            for (int i=0; i<trs.length; ++i){
-                out.print(allts[i]);
-                out.print(('\t'));
-                out.println(trs[i].getData("likelihood.bicc", Double.class));
-            }
-            for (int i=0; i<xs.length; ++i){
-                out.print(allx[i]);
-                out.print(('\t'));
-                out.println(xs[i].getData("likelihood.bicc", Double.class));
-            }
+            int freq=s.getFrequency().intValue();
+            TsPeriodSelector sel=new TsPeriodSelector();
+            sel.last(freq);
+            out.println(s.pctVariation(freq).select(sel));
+            
+//            for (int i=0; i<trs.length; ++i){
+//                out.print(allts[i]);
+//                out.print(('\t'));
+//                out.println(trs[i].getData("likelihood.bicc", Double.class));
+//            }
+//            for (int i=0; i<xs.length; ++i){
+//                out.print(allx[i]);
+//                out.print(('\t'));
+//                out.println(xs[i].getData("likelihood.bicc", Double.class));
+//            }
         }
     }
 }
