@@ -329,6 +329,7 @@ final class SpreadSheetBeanPanel extends javax.swing.JPanel {
     private void browseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browseButtonActionPerformed
         if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             filePathTextField.setText(fileChooser.getSelectedFile().getPath());
+            firePropertyChange(FILE_PROPERTY, null, getFile());
         }
     }//GEN-LAST:event_browseButtonActionPerformed
 
