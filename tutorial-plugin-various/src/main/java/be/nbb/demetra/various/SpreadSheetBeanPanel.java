@@ -38,6 +38,7 @@ import ec.util.various.swing.TextPrompt;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.FileFilter;
 import java.util.Date;
@@ -47,6 +48,8 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFileChooser;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import org.openide.DialogDescriptor;
 
 /**
@@ -80,6 +83,13 @@ final class SpreadSheetBeanPanel extends javax.swing.JPanel {
         JAutoCompletion autoCompletion = new JAutoCompletion(filePathTextField);
         autoCompletion.setSource(new DesktopFileAutoCompletionSource(new FileLoaderFileFilter(loader), paths));
         autoCompletion.getList().setCellRenderer(new FileListCellRenderer(null, executor, paths));
+        autoCompletion.getList().addListSelectionListener(new ListSelectionListener() {
+
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                firePropertyChange(FILE_PROPERTY, null, getFile());
+            }
+        });
 
         filePathTextField.addKeyListener(new KeyAdapter() {
             @Override
