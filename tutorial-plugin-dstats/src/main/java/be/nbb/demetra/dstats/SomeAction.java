@@ -17,7 +17,6 @@ import ec.tss.TsInformationType;
 import ec.tss.tsproviders.DataSet;
 import ec.tss.tsproviders.DataSource;
 import ec.tss.tsproviders.TsProviders;
-import ec.tss.tsproviders.utils.MultiLineNameUtil;
 import ec.tstoolkit.algorithm.CompositeResults;
 import ec.tstoolkit.modelling.arima.CheckLast;
 import ec.tstoolkit.modelling.arima.tramo.TramoSpecification;
@@ -78,15 +77,15 @@ public final class SomeAction implements ActionListener {
             CheckLast cl = new CheckLast(myspec.build());
             try (OutputWriter out = DStatsHelper.CHECK.getOut()) {
                 for (Ts s : ts) {
-//                    out.println(MultiLineNameUtil.last(s.getName()));
+//                    out.println(last(s.getName()));
                     if (cl.check(s.getTsData())) {
                         double score = cl.getScore(0);
                         if (Math.abs(score) > 4) {
-//                            out.print(MultiLineNameUtil.last(s.getName()));
+//                            out.print(last(s.getName()));
                             CompositeResults saprocess = TramoSeatsProcessingFactory.process(s.getTsData(), TramoSeatsSpecification.RSAfull);
                             TsData sa = saprocess.getData("sa", TsData.class);
                             Ts ssa = TsFactory.instance.createTs(s.getName(), null, sa);
-                            out.println(MultiLineNameUtil.last(s.getName()), new DStatsAction.TsHyperLinkListener(ssa));
+                            out.println(last(s.getName()), new DStatsAction.TsHyperLinkListener(ssa));
                             out.print('\t');
                             out.println(score);
                         }
@@ -100,4 +99,11 @@ public final class SomeAction implements ActionListener {
             Exceptions.printStackTrace(ex);
         }
     }
+
+	
+	// copy of MultiLineName#last(String) to be remove with v2.1
+    private static String last(String input) {
+        int index = input.lastIndexOf("\n");
+        return index == -1 ? input : input.substring(index + 1);
+    }	
 }
