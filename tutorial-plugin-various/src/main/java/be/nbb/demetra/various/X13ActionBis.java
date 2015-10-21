@@ -16,15 +16,19 @@
  */
 package be.nbb.demetra.various;
 
+import ec.nbdemetra.ui.nodes.SingleNodeAction;
 import ec.nbdemetra.ws.WorkspaceFactory;
 import ec.nbdemetra.ws.WorkspaceItem;
 import ec.nbdemetra.ws.actions.AbstractViewAction;
+import ec.nbdemetra.ws.nodes.ItemWsNode;
 import ec.nbdemetra.x13.X13DocumentManager;
 import ec.nbdemetra.x13.X13TopComponent;
 import ec.satoolkit.x11.Mstatistics;
 import ec.tss.sa.documents.X13Document;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import org.openide.DialogDisplayer;
+import org.openide.NotifyDescriptor;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.awt.ActionReferences;
@@ -33,46 +37,48 @@ import org.openide.util.NbBundle.Messages;
 
 @ActionID(
         category = "SaProcessing",
-        id = "be.nbb.demetra.various.X13Action"
+        id = "be.nbb.demetra.various.X13ActionBis"
 )
 @ActionRegistration(
-        displayName = "#CTL_X13Action", lazy = false)
+        displayName = "#CTL_X13ActionBis", lazy = false)
 @ActionReferences({
-    @ActionReference(path = X13DocumentManager.CONTEXTPATH, position = 9000)
+    @ActionReference(path = X13DocumentManager.ITEMPATH, position = 9000)
 })
-@Messages("CTL_X13Action=My X13 action")
-public final class X13Action extends AbstractViewAction<X13TopComponent> {
+@Messages("CTL_X13ActionBis=My X13 action bis")
+public final class X13ActionBis extends SingleNodeAction<ItemWsNode> {
 
-    public X13Action() {
-        super(X13TopComponent.class);
-        putValue(NAME, Bundle.CTL_X13Action());
-   }
-
-    @Override
-    protected void refreshAction() {
-        enabled = false;
-        X13TopComponent cur = context();
-        if (cur != null && cur.getDocument() != null && cur.getDocument().getElement().getResults() != null) {
-            enabled = true;
-        }
+    public X13ActionBis() {
+        super(ItemWsNode.class);
     }
 
     @Override
-    public boolean isEnabled() {
-        refreshAction();
-        return enabled;
-    }
-
-    @Override
-    protected void process(X13TopComponent cur) {
-        WorkspaceItem<X13Document> document = cur.getDocument();
-        if (document != null) {
-            X13Document element = document.getElement();
-            Mstatistics ms = element.getMStatistics();
-            if (ms != null) {
-                javax.swing.JOptionPane.showMessageDialog(cur, Double.toString(ms.getQ()));
+    protected void performAction(ItemWsNode context) {
+        WorkspaceItem<?> cur = context.getItem();
+        if (cur.getElement() instanceof X13Document) {
+            X13Document doc = (X13Document) cur.getElement();
+            if (doc != null) {
+                Mstatistics ms = doc.getMStatistics();
+                if (ms != null) {
+                    NotifyDescriptor nd = new NotifyDescriptor.Message(Double.toString(ms.getQ()));
+                    DialogDisplayer.getDefault().notify(nd);
+                }
             }
         }
     }
 
-}
+    @Override
+    protected boolean enable(ItemWsNode context
+    ) {
+        WorkspaceItem<?> cur = context.getItem();
+        if (cur.getElement() instanceof X13Document) {
+            X13Document doc = (X13Document) cur.getElement();
+            return doc.getMStatistics() != null;
+        }
+        return false;
+    }
+
+    @Override
+    public String getName() {
+        return Bundle.CTL_X13ActionBis();
+    }
+ }
