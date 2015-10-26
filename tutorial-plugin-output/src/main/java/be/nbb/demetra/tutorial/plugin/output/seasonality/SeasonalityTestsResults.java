@@ -41,50 +41,61 @@ public class SeasonalityTestsResults implements IProcResults {
 
     public SeasonalityTestsResults(SaDocument doc, List<String> series, List<String> tests, int nlast) {
         // create the tests
-        List<String> ls = new ArrayList<>();
-        List<String> alls = new ArrayList<>();
-        for (String se : series) {
-            int ilast = se.indexOf("_last");
-            if (ilast < 0) {
-                alls.add(se);
-            } else {
-                ls.add(se.substring(0, ilast));
+        try {
+            List<String> ls = new ArrayList<>();
+            List<String> alls = new ArrayList<>();
+            for (String se : series) {
+                int ilast = se.indexOf("_last");
+                if (ilast < 0) {
+                    alls.add(se);
+                } else {
+                    ls.add(se.substring(0, ilast));
+                }
             }
-        }
-        for (String se : alls) {
-            Information information = buildInfo(se, doc, 0);
-            TsData s = information.s;
-            if (information.mul) {
-                s = s.log();
+            for (String se : alls) {
+                Information information = buildInfo(se, doc, 0);
+                if (information != null) {
+                    TsData s = information.s;
+
+                    if (information.mul) {
+                        s = s.log();
+                    }
+                    SeasonalityTests seasonalityTest = SeasonalityTests.seasonalityTest(s, information.del, information.mean, true);
+                    for (String t : tests) {
+                        addTest(seasonalityTest, se, t, true);
+                    }
+                }
             }
-            SeasonalityTests seasonalityTest = SeasonalityTests.seasonalityTest(s, information.del, information.mean, true);
-            for (String t : tests) {
-                addTest(seasonalityTest, se, t, true);
+            for (String se : ls) {
+                Information information = buildInfo(se, doc, nlast);
+                if (information != null) {
+                    TsData s = information.s;
+                    if (information.mul) {
+                        s = s.log();
+                    }
+                    SeasonalityTests seasonalityTest = SeasonalityTests.seasonalityTest(s, information.del, information.mean, true);
+                    for (String t : tests) {
+                        addTest(seasonalityTest, se, t, false);
+                    }
+                }
             }
-        }
-        for (String se : ls) {
-            Information information = buildInfo(se, doc, nlast);
-            TsData s = information.s;
-            if (information.mul) {
-                s = s.log();
-            }
-            SeasonalityTests seasonalityTest = SeasonalityTests.seasonalityTest(s, information.del, information.mean, true);
-            for (String t : tests) {
-                addTest(seasonalityTest, se, t, false);
-            }
+        } catch (Exception ex) {
         }
     }
 
     @Override
-    public <T> T getData(String id, Class<T> tclass) {
-        if (! tclass.isAssignableFrom(StatisticalTest.class)) {
+    public <T> T
+            getData(String id, Class<T> tclass
+            ) {
+        if (!tclass.isAssignableFrom(StatisticalTest.class)) {
             return null;
         }
         return (T) tests.get(id);
     }
 
     @Override
-    public boolean contains(String id) {
+    public boolean contains(String id
+    ) {
         return tests.containsKey(id);
     }
 
