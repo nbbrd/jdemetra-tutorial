@@ -44,4 +44,7 @@ A plugin that adds two advanced outputs to JDemetra+:
 * A csv file containing various seasonality tests
 * An xml file that provides some results of SEATS (canonical decomposition...)
 
+### QualityReport
+A plugin that creates a skeleton for the SA quality report of JDemetra+:
+
 
