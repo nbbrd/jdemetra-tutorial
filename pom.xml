@@ -37,6 +37,7 @@
         <module>tutorial-plugin-sadiags</module>
         <module>tutorial-plugin-output</module>
         <module>tutorial-plugin-basic-output</module>
+        <module>QualityReport</module>
     </modules>
 
     <repositories>
