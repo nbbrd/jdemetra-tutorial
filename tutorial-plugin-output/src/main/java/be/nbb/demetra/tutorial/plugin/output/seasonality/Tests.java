@@ -10,7 +10,7 @@ import java.util.Arrays;
 
 /**
  *
- * @author PCUser
+ * @author Jean Palate
  */
 public class Tests extends ListSelectionEditor<String> {
 

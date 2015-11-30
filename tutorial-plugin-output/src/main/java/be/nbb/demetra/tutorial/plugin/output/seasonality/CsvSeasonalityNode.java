@@ -12,7 +12,7 @@ import org.openide.nodes.Sheet;
 
 /**
  *
- * @author pcuser
+ * @author Jean Palate
  */
 public class CsvSeasonalityNode extends AbstractOutputNode<CsvSeasonalityOutputConfiguration> {
 

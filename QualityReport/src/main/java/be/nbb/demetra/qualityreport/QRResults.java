@@ -11,8 +11,11 @@ import ec.satoolkit.ISeriesDecomposition;
 import ec.satoolkit.diagnostics.CombinedSeasonalityTest;
 import ec.satoolkit.diagnostics.StationaryVarianceDecomposition;
 import ec.satoolkit.seats.SeatsResults;
+import ec.satoolkit.x11.Mstatistics;
 import ec.satoolkit.x11.X11Results;
 import ec.tss.sa.documents.SaDocument;
+import ec.tss.sa.documents.TramoSeatsDocument;
+import ec.tss.sa.documents.X13Document;
 import ec.tstoolkit.algorithm.IProcResults;
 import ec.tstoolkit.algorithm.IProcSpecification;
 import ec.tstoolkit.algorithm.ProcessingInformation;
@@ -31,13 +34,14 @@ import java.util.Map;
 
 /**
  *
- * @author PCUser
+ * @author Jean Palate
  */
 public class QRResults implements IProcResults {
 
     public static final String VAR_CYCLE = "var_cycle", VAR_SEAS = "var_seas",
             VAR_TD = "var_td", VAR_IRR = "var_irr", VAR_OTHER = "var_other", VAR_TOT = "var_total",
-            START = "start", END = "end", N = "n", METHOD = "method", TEST1 = "test1", TEST2 = "test2";
+            START = "start", END = "end", N = "n", METHOD = "method", TEST1 = "test1", TEST2 = "test2",
+            SVAR = "svar", Q2 = "q2";
 
     public static final String[] allItems() {
         return mapper.keys();
@@ -46,12 +50,13 @@ public class QRResults implements IProcResults {
 //    public static final String[] ALL_VARS = new String[]{VAR_CYCLE, VAR_SEAS, 
 //        VAR_IRR, VAR_TD, VAR_OTHER, VAR_TOT, N, START, END, 
 //        METHOD, TEST1, TEST2};
-
     private StationaryVarianceDecomposition vardecomp;
     private int n;
     private String Method;
     private TsPeriod start, end;
     private CombinedSeasonalityTest test, test2;
+    private double svar;
+    private double q2;
 
     public <S extends ISaSpecification> QRResults(SaDocument<S> doc) {
         try {
@@ -79,13 +84,29 @@ public class QRResults implements IProcResults {
                     calccombined(si, mode);
                 }
             }
+            if (doc instanceof TramoSeatsDocument) {
+                TramoSeatsDocument tsdoc = (TramoSeatsDocument) doc;
+                SeatsResults seats = tsdoc.getDecompositionPart();
+                svar = seats.getUcarimaModel().getComponent(1).getInnovationVariance(); // seasonal innovation variance
+            } else {
+                svar = -1;
+            }
+            if (doc instanceof X13Document) {
+                X13Document xdoc = (X13Document) doc;
+                X11Results x11 = xdoc.getDecompositionPart(); // unused here
+                Mstatistics mstats = xdoc.getMStatistics();
+                q2 = mstats.getQm2();
+            } else {
+                q2 = -1;
+            }
         } catch (Exception ex) {
         }
     }
 
     private void calccombined(ISeriesDecomposition output) {
-        if (output == null)
+        if (output == null) {
             return;
+        }
         TsData s = output.getSeries(ComponentType.Seasonal, ComponentInformation.Value);
         TsData i = output.getSeries(ComponentType.Irregular, ComponentInformation.Value);
         TsData si;
@@ -190,48 +211,54 @@ public class QRResults implements IProcResults {
         mapper.add(VAR_CYCLE, new InformationMapper.Mapper<QRResults, Double>(Double.class) {
             @Override
             public Double retrieve(QRResults source) {
-                if (source.vardecomp == null)
+                if (source.vardecomp == null) {
                     return null;
+                }
                 return source.vardecomp.getVarC();
             }
         });
         mapper.add(VAR_SEAS, new InformationMapper.Mapper<QRResults, Double>(Double.class) {
             @Override
             public Double retrieve(QRResults source) {
-                if (source.vardecomp == null)
+                if (source.vardecomp == null) {
                     return null;
+                }
                 return source.vardecomp.getVarS();
             }
         });
         mapper.add(VAR_IRR, new InformationMapper.Mapper<QRResults, Double>(Double.class) {
             @Override
             public Double retrieve(QRResults source) {
-                if (source.vardecomp == null)
+                if (source.vardecomp == null) {
                     return null;
+                }
                 return source.vardecomp.getVarI();
             }
         });
         mapper.add(VAR_TD, new InformationMapper.Mapper<QRResults, Double>(Double.class) {
             @Override
             public Double retrieve(QRResults source) {
-                if (source.vardecomp == null)
+                if (source.vardecomp == null) {
                     return null;
+                }
                 return source.vardecomp.getVarTD();
             }
         });
         mapper.add(VAR_OTHER, new InformationMapper.Mapper<QRResults, Double>(Double.class) {
             @Override
             public Double retrieve(QRResults source) {
-                if (source.vardecomp == null)
+                if (source.vardecomp == null) {
                     return null;
+                }
                 return source.vardecomp.getVarP();
             }
         });
         mapper.add(VAR_TOT, new InformationMapper.Mapper<QRResults, Double>(Double.class) {
             @Override
             public Double retrieve(QRResults source) {
-                if (source.vardecomp == null)
+                if (source.vardecomp == null) {
                     return null;
+                }
                 return source.vardecomp.getVarTotal();
             }
         });
@@ -275,6 +302,26 @@ public class QRResults implements IProcResults {
                     return null;
                 }
                 return source.test2.getSummary().toString();
+            }
+        });
+        mapper.add(Q2, new InformationMapper.Mapper<QRResults, Double>(Double.class) {
+            @Override
+            public Double retrieve(QRResults source) {
+                if (source.q2 < 0) {
+                    return null;
+                } else {
+                    return source.q2;
+                }
+            }
+        });
+        mapper.add(SVAR, new InformationMapper.Mapper<QRResults, Double>(Double.class) {
+            @Override
+            public Double retrieve(QRResults source) {
+                if (source.svar < 0) {
+                    return null;
+                } else {
+                    return source.svar;
+                }
             }
         });
     }

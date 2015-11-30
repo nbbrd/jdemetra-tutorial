@@ -11,7 +11,7 @@ import ec.tstoolkit.ucarima.UcarimaModel;
 
 /**
  *
- * @author PCUser
+ * @author Jean Palate
  */
 public class SeatsSummary {
     
